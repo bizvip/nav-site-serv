@@ -18,6 +18,8 @@ final class FileService implements FileServiceInterface
     {
         $publishService = $this->container->get(PublishServiceInterface::class);
         $image          = $publishService->getImage($name);
+        var_dump(\random_int(1000,9999));
+
         return false;
     }
 }
