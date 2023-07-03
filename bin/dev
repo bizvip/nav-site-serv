@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+ini_set(option: 'display_errors', value: 'on');
+ini_set(option: 'display_startup_errors', value: 'on');
+ini_set(option: 'memory_limit', value: '3G');
+set_time_limit(seconds: 0);
+date_default_timezone_set(timezoneId: 'Asia/Shanghai');
+
+error_reporting(error_level: E_ALL);
+date_default_timezone_set(timezoneId: 'Asia/Shanghai');
+
+! defined(constant_name: 'BASE_PATH') && define('BASE_PATH', value: dirname(path: __DIR__, levels: 1));
+! defined(constant_name: 'SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL);
+
+require BASE_PATH . '/vendor/autoload.php';
+
+(function () {
+    Hyperf\Di\ClassLoader::init();
+    /** @var Psr\Container\ContainerInterface $container */
+    $container = require BASE_PATH . '/config/container.php';
+
+    $application = $container->get(Hyperf\Contract\ApplicationInterface::class);
+    $application->run();
+})();
