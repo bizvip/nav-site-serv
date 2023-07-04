@@ -26,7 +26,7 @@ final class FileManager
             ->setFilesystem($this->factory->get('local'));
     }
 
-    public function fileSystem(): Filesystem
+    public function localFileSys(): Filesystem
     {
         return ApplicationContext::getContainer()->get(Filesystem::class);
     }

@@ -7,11 +7,9 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-use App\System\Model\SystemQueueMessage;
-use App\System\Vo\QueueMessageVo;
 use App\Utils\Enums\AlphabetTypeEnums;
 
-final class Str extends \Mine\Helper\Str
+final class Str extends \Hyperf\Stringable\Str
 {
     public static function firstBySeparator(string $str, string $separator = ','): string
     {

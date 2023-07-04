@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Business\Controllers;
 
 use App\Business\Rpc\PublishServiceInterface;
-use App\Business\Services\ClickCountService;
+use App\Business\Services\CounterService;
 use App\Controller\AbstractController;
 use App\Utils\Logger;
 use Hyperf\Di\Annotation\Inject;
@@ -22,29 +22,33 @@ final class IndexController extends AbstractController
     private PublishServiceInterface $publishService;
 
     #[Inject]
-    private ClickCountService $clickCountService;
+    private CounterService $clickCountService;
 
-    #[GetMapping(path: '')]
+    #[GetMapping(path: 'home')]
     public function index(): ResponseInterface
     {
+        //todo 需要固定读取本地redis
         try {
             $headers = $this->request->getHeaders();
             $host    = parse_url($headers['host'][0]);
 
             if (isset($host['path'])) {
-                $host = !empty($host) ? str_ireplace('www.', '', $host['path']) : null;
+                $host = !empty($host) ? str_ireplace(search: 'www.', replace: '', subject: $host['path']) : null;
             } elseif (isset($host['host'])) {
-                $host = !empty($host) ? str_ireplace('www.', '', $host['host']) : null;
+                $host = !empty($host) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                Logger::error(
-                    ['get host header failed, set to default ""', $headers, $host]
-                );
+                Logger::error([
+                    'get host header failed, set to default ""',
+                    $headers,
+                    $host,
+                ]);
                 $host = '';
             }
+            var_dump($host);
             $contents = $this->publishService->getHtml($host);
         } catch (\Throwable $e) {
             Logger::error($e);
-            $contents = '';
+            $contents = $this->publishService->getUnRegisteredDomainContent();
         }
 
         return $this->response
@@ -53,11 +57,10 @@ final class IndexController extends AbstractController
             ->withBody(new SwooleStream($contents));
     }
 
-    #[PostMapping(path: 'count')]
+    #[PostMapping(path: 'boom')]
     public function clickCount(): ResponseInterface
     {
-        print_r($this->request->all());
-        print_r($this->request->getHeaders());
-        return $this->response->withStatus(204);
+        $this->clickCountService->saveClick();
+        return $this->response->withStatus(200);
     }
 }

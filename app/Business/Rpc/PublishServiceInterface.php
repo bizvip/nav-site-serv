@@ -12,9 +12,11 @@ interface PublishServiceInterface
 {
     public function getHtml(string $domain): string;
 
-    public function saveGuestClick(array $data): bool;
+    public function saveClickInfo(array $data): bool;
 
     public function getImage(string $path): string;
 
     public function getOssBaseUri(): string;
+
+    public function getUnRegisteredDomainContent(): string;
 }

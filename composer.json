@@ -13,6 +13,7 @@
     "license": "Apache-2.0",
     "require": {
         "php": ">=8.0",
+        "hashids/hashids": "^5.0",
         "hyperf/amqp": "^3.0",
         "hyperf/cache": "~3.0.0",
         "hyperf/command": "~3.0.0",
@@ -22,7 +23,7 @@
         "hyperf/db-connection": "~3.0.0",
         "hyperf/filesystem": "^3.0",
         "hyperf/framework": "~3.0.0",
-        "hyperf/guzzle": "~3.0.0",
+        "hyperf/guzzle": "^3.0",
         "hyperf/http-server": "~3.0.0",
         "hyperf/json-rpc": "^3.0",
         "hyperf/logger": "~3.0.0",
@@ -33,7 +34,8 @@
         "hyperf/rpc": "~3.0.0",
         "hyperf/rpc-client": "^3.0",
         "hyperf/rpc-server": "^3.0",
-        "league/flysystem-aws-s3-v3": "^2.0"
+        "league/flysystem-aws-s3-v3": "^2.0",
+        "matomo/device-detector": "^6.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
