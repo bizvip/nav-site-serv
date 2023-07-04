@@ -14,5 +14,7 @@ interface PublishServiceInterface
 
     public function saveGuestClick(array $data): bool;
 
-    public function getImage(string $name): string;
+    public function getImage(string $path): string;
+
+    public function getOssBaseUri(): string;
 }

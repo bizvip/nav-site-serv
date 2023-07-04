@@ -10,8 +10,13 @@ date_default_timezone_set(timezoneId: 'Asia/Shanghai');
 error_reporting(error_level: E_ALL);
 date_default_timezone_set(timezoneId: 'Asia/Shanghai');
 
-! defined(constant_name: 'BASE_PATH') && define('BASE_PATH', value: dirname(path: __DIR__, levels: 1));
-! defined(constant_name: 'SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL);
+!defined(constant_name: 'BASE_PATH') && define(
+    'BASE_PATH',
+    value: dirname(path: __DIR__, levels: 1)
+);
+!defined(constant_name: 'SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL);
+const PUBLIC_PATH  = BASE_PATH . '/public';
+const RUNTIME_PATH = BASE_PATH . '/runtime';
 
 require BASE_PATH . '/vendor/autoload.php';
 

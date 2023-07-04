@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Utils\File;
 
 use App\Exception\BusinessException;
-use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 
 final class StorageAdapter
@@ -50,50 +49,50 @@ final class StorageAdapter
         return $this;
     }
 
-    public function deleteAll(string $dir = ''): bool|int
-    {
-        if ('' !== $dir) {
-            return $this->filesystem->deleteDir($dir);
-        }
-        $list = $this->filesystem->listContents($dir, recursive: true);
-        $i    = 0;
-        foreach ($list as $k => $v) {
-            if (($v['type'] === 'file') && $this->filesystem->delete($v['path'])) {
-                $i++;
-                continue;
-            }
-            if (($v['type'] === OSS::TYPE_DIR) && $this->filesystem->delete($v['path'])) {
-                $i++;
-            }
-        }
-        return $i;
-    }
+    // public function deleteAll(string $dir = ''): bool|int
+    // {
+    //     if ('' !== $dir) {
+    //         return $this->filesystem->deleteDir($dir);
+    //     }
+    //     $list = $this->filesystem->listContents($dir, recursive: true);
+    //     $i    = 0;
+    //     foreach ($list as $k => $v) {
+    //         if (($v['type'] === 'file') && $this->filesystem->delete($v['path'])) {
+    //             $i++;
+    //             continue;
+    //         }
+    //         if (($v['type'] === OSS::TYPE_DIR) && $this->filesystem->delete($v['path'])) {
+    //             $i++;
+    //         }
+    //     }
+    //     return $i;
+    // }
 
-    public function getList(string $dir = '', bool $recursive = false): ?array
+    public function getList(string $dir = '', bool $recursive = false): \League\Flysystem\DirectoryListing
     {
         return $this->filesystem->listContents($dir, $recursive);
     }
 
-    public function rename(string $path, string $newPath): bool
-    {
-        return $this->filesystem->rename($path, $newPath);
-    }
+    // public function rename(string $path, string $newPath): bool
+    // {
+    // }
 
-    public function delete(string $path): bool
+    public function delete(string $path): void
     {
-        return $this->filesystem->delete($path);
+        $this->filesystem->delete($path);
     }
 
     public function has(string $path): bool
     {
-        return $this->filesystem->has($path);
+        return $this->filesystem->fileExists($path);
     }
 
     public function copy(string $path, string $newPath): bool
     {
         try {
-            return $this->filesystem->copy($path, $newPath);
-        } catch (FileNotFoundException $fileNotFoundException) {
+            $this->filesystem->copy($path, $newPath);
+            return true;
+        } catch (\Throwable $e) {
             return false;
         }
     }
@@ -118,44 +117,59 @@ final class StorageAdapter
      * [type] => file
      * )
      */
-    public function getMeta(string $path): false|array
-    {
-        return $this->filesystem->getMetadata($path);
-    }
+    // public function getMeta(string $path): false|array
+    // {
+    // }
 
-    public function update(string $path, string $contents, array $config = []): bool
-    {
-        return $this->filesystem->update($path, $contents, $config);
-    }
+    // public function update(string $path, string $contents, array $config = []): bool
+    // {
+    //     return $this->filesystem->copy() ($path, $contents, $config);
+    // }
 
     public function createDir(string $dir, array $config = []): bool
     {
-        return $this->filesystem->createDir($dir, $config);
+        $this->filesystem->createDirectory($dir, $config);
+        return true;
     }
 
     public function deleteDir(string $dir): bool
     {
-        return $this->filesystem->deleteDir($dir);
+        $this->filesystem->deleteDirectory($dir);
+        return true;
     }
 
     public function put(mixed $contents, string $path = '', array $config = [], bool $isAsync = false): bool
     {
         if (is_resource($contents)) {
-            return $this->filesystem->putStream($path, $contents, $config);
+            $this->filesystem->writeStream($path, $contents, $config);
+            return true;
         }
-        return !is_string($contents)
-            ? throw new BusinessException(message: '不支持的 put 内容类型')
-            : $this->filesystem->put(path: $path, contents: file_get_contents($contents), config: $config);
+        if (!is_string($contents)) {
+            throw new BusinessException(message: '不支持的 write 内容类型');
+        }
+        $this->filesystem->write(
+            location: $path,
+            contents: file_get_contents($contents),
+            config  : $config
+        );
+        return true;
     }
 
     public function write(mixed $contents, string $path = '', array $config = [], bool $isAsync = false): bool
     {
         if (is_resource($contents)) {
-            return $this->filesystem->writeStream($path, $contents, $config);
+            $this->filesystem->writeStream($path, $contents, $config);
+            return true;
         }
-        return !is_string($contents)
-            ? throw new BusinessException(message: '不支持的 write 内容类型')
-            : $this->filesystem->write(path: $path, contents: file_get_contents($contents), config: $config);
+        if (!is_string($contents)) {
+            throw new BusinessException(message: '不支持的 write 内容类型');
+        }
+        $this->filesystem->write(
+            location: $path,
+            contents: file_get_contents($contents),
+            config  : $config
+        );
+        return true;
     }
 
     public function getFile(string $path): string
@@ -163,18 +177,20 @@ final class StorageAdapter
         return $this->filesystem->read($path);
     }
 
-    public function getVisibility(string $path): mixed
+    public function getVisibility(string $path): string
     {
-        return $this->filesystem->getVisibility($path);
+        return $this->filesystem->visibility($path);
     }
 
     public function setVisibilityPublic(string $path): bool
     {
-        return $this->filesystem->setVisibility(path: $path, visibility: OSS::VISIBILITY_PUBLIC);
+        $this->filesystem->setVisibility(path: $path, visibility: OSS::VISIBILITY_PUBLIC);
+        return true;
     }
 
     public function setVisibilityPrivate(string $path): bool
     {
-        return $this->filesystem->setVisibility(path: $path, visibility: OSS::VISIBILITY_PRIVATE);
+        $this->filesystem->setVisibility(path: $path, visibility: OSS::VISIBILITY_PRIVATE);
+        return true;
     }
 }

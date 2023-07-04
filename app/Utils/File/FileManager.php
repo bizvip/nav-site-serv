@@ -6,6 +6,7 @@ namespace App\Utils\File;
 
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Filesystem\FilesystemFactory;
+use Hyperf\Support\Filesystem\Filesystem;
 
 final class FileManager
 {
@@ -23,5 +24,10 @@ final class FileManager
     {
         return ApplicationContext::getContainer()->get(StorageAdapter::class)
             ->setFilesystem($this->factory->get('local'));
+    }
+
+    public function fileSystem(): Filesystem
+    {
+        return ApplicationContext::getContainer()->get(Filesystem::class);
     }
 }
