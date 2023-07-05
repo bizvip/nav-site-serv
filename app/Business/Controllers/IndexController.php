@@ -23,7 +23,6 @@ final class IndexController extends AbstractController
     #[GetMapping(path: 'home')]
     public function index(): ResponseInterface
     {
-        //todo 需要固定读取本地redis
         try {
             $headers = $this->request->getHeaders();
             $host    = parse_url($headers['host'][0]);
@@ -33,11 +32,7 @@ final class IndexController extends AbstractController
             } elseif (isset($host['host'])) {
                 $domain = !empty($host['host']) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                Logger::error([
-                    'get host header failed, set to default ""',
-                    $headers,
-                    $host,
-                ]);
+                Logger::error(['get host header failed, set to default ""', $headers, $host,]);
                 $domain = '';
             }
             $contents = $this->indexService->getHtml($domain);
@@ -53,7 +48,7 @@ final class IndexController extends AbstractController
     }
 
     #[PostMapping(path: 'boom')]
-    public function clickCount(): ResponseInterface
+    public function counter(): ResponseInterface
     {
         $this->indexService->saveClick();
         return $this->response->withStatus(200);

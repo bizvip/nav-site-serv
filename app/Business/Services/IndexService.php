@@ -7,6 +7,7 @@ namespace App\Business\Services;
 use App\Business\Biz;
 use App\Business\Rpc\Publish;
 use App\Business\Rpc\PublishServiceInterface;
+use App\Utils\Logger;
 use App\Utils\Str;
 use DeviceDetector\DeviceDetector;
 use Hyperf\Cache\Annotation\Cacheable;
@@ -64,7 +65,7 @@ final class IndexService
         //     [family] => Android
         // )
 
-        $this->saveClickInfo([
+        $this->pushClickToStream([
             'id'         => $id,
             'domain'     => $domain,
             'schema'     => $schema,
@@ -79,23 +80,28 @@ final class IndexService
         $dd = null;
     }
 
-    public function saveClickInfo(array $data): bool
+    public function pushClickToStream(array $data): bool
     {
-        $data['id'] = $data['id'][0] ?? null;
-        if (!$data['id']) {
+        try {
+            $data['id'] = $data['id'][0] ?? null;
+            if (!$data['id']) {
+                return false;
+            }
+            $xId = $this->redis->xAdd(Publish::STREAM_COUNTER_KEY, '*', $data, 1000000, true);
+            return is_string($xId) && strlen($xId) > 10;
+        } catch (\Throwable $e) {
+            Logger::error($e);
             return false;
         }
-        $xId = $this->redis->xAdd(Publish::STREAM_COUNTER_KEY, '*', $data, 1000000, true);
-        return is_string($xId) && strlen($xId) > 10;
     }
 
-    #[Cacheable(prefix: 'html', value: '#{domain}', ttl: 0)]
+    #[Cacheable(prefix: 'html', value: '#{domain}', ttl: 1209600)]
     public function getHtml(string $domain): string
     {
         return $this->publishService->genHtmlByDomain($domain);
     }
 
-    #[Cacheable(prefix: 'unknown', ttl: 0)]
+    #[Cacheable(prefix: 'unknown', ttl: 1209600)]
     public function getUnRegisteredDomainContent(): string
     {
         return $this->publishService->getUnRegisteredDomainContent();
