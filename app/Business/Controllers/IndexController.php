@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Business\Controllers;
 
-use App\Business\Rpc\PublishServiceInterface;
-use App\Business\Services\CounterService;
+use App\Business\Services\IndexService;
 use App\Controller\AbstractController;
 use App\Utils\Logger;
 use Hyperf\Di\Annotation\Inject;
@@ -19,10 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 final class IndexController extends AbstractController
 {
     #[Inject]
-    private PublishServiceInterface $publishService;
-
-    #[Inject]
-    private CounterService $clickCountService;
+    private IndexService $indexService;
 
     #[GetMapping(path: 'home')]
     public function index(): ResponseInterface
@@ -37,13 +33,17 @@ final class IndexController extends AbstractController
             } elseif (isset($host['host'])) {
                 $domain = !empty($host['host']) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                Logger::error(['get host header failed, set to default ""', $headers, $host,]);
+                Logger::error([
+                    'get host header failed, set to default ""',
+                    $headers,
+                    $host,
+                ]);
                 $domain = '';
             }
-            $contents = $this->publishService->getHtml($domain);
+            $contents = $this->indexService->getHtml($domain);
         } catch (\Throwable $e) {
             Logger::error($e);
-            $contents = $this->publishService->getUnRegisteredDomainContent();
+            $contents = $this->indexService->getUnRegisteredDomainContent();
         }
 
         return $this->response
@@ -55,7 +55,7 @@ final class IndexController extends AbstractController
     #[PostMapping(path: 'boom')]
     public function clickCount(): ResponseInterface
     {
-        $this->clickCountService->saveClick();
+        $this->indexService->saveClick();
         return $this->response->withStatus(200);
     }
 }

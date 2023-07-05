@@ -10,9 +10,7 @@ namespace App\Business\Rpc;
 
 interface PublishServiceInterface
 {
-    public function getHtml(string $domain): string;
-
-    public function saveClickInfo(array $data): bool;
+    public function genHtmlByDomain(string $domain): string;
 
     public function getImage(string $path): string;
 

@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Business\Services;
 
 use App\Business\Biz;
+use App\Business\Rpc\Publish;
 use App\Business\Rpc\PublishServiceInterface;
 use App\Utils\Str;
 use DeviceDetector\DeviceDetector;
+use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\Redis\Redis;
 
-final class CounterService
+final class IndexService
 {
     #[Inject]
     private RequestInterface $request;
@@ -19,9 +22,12 @@ final class CounterService
     #[Inject]
     private PublishServiceInterface $publishService;
 
+    #[Inject]
+    private Redis $redis;
+
     public function saveClick(): void
     {
-        // todo 虽然受总数量限制，极高并发下数万协程会爆链接池
+        // 虽然受总数量限制，极高并发下上万协程会爆链接池
         // Coroutine::create(function () use ($headers, $params) {
         $params = $this->request->all();
 
@@ -48,6 +54,7 @@ final class CounterService
         //     [engine_version] => 80.0.3987.162
         //     [family] => Chrome
         // )
+
         //Array
         // (
         //     [name] => Android
@@ -57,7 +64,7 @@ final class CounterService
         //     [family] => Android
         // )
 
-        $this->publishService->saveClickInfo([
+        $this->saveClickInfo([
             'id'         => $id,
             'domain'     => $domain,
             'schema'     => $schema,
@@ -70,5 +77,27 @@ final class CounterService
         ]);
 
         $dd = null;
+    }
+
+    public function saveClickInfo(array $data): bool
+    {
+        $data['id'] = $data['id'][0] ?? null;
+        if (!$data['id']) {
+            return false;
+        }
+        $xId = $this->redis->xAdd(Publish::STREAM_COUNTER_KEY, '*', $data, 1000000, true);
+        return is_string($xId) && strlen($xId) > 10;
+    }
+
+    #[Cacheable(prefix: 'html', value: '#{domain}', ttl: 0)]
+    public function getHtml(string $domain): string
+    {
+        return $this->publishService->genHtmlByDomain($domain);
+    }
+
+    #[Cacheable(prefix: 'unknown', ttl: 0)]
+    public function getUnRegisteredDomainContent(): string
+    {
+        return $this->publishService->getUnRegisteredDomainContent();
     }
 }
