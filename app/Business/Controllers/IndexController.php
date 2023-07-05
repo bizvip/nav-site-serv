@@ -33,19 +33,14 @@ final class IndexController extends AbstractController
             $host    = parse_url($headers['host'][0]);
 
             if (isset($host['path'])) {
-                $host = !empty($host) ? str_ireplace(search: 'www.', replace: '', subject: $host['path']) : null;
+                $domain = !empty($host['path']) ? str_ireplace(search: 'www.', replace: '', subject: $host['path']) : null;
             } elseif (isset($host['host'])) {
-                $host = !empty($host) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
+                $domain = !empty($host['host']) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                Logger::error([
-                    'get host header failed, set to default ""',
-                    $headers,
-                    $host,
-                ]);
-                $host = '';
+                Logger::error(['get host header failed, set to default ""', $headers, $host,]);
+                $domain = '';
             }
-            var_dump($host);
-            $contents = $this->publishService->getHtml($host);
+            $contents = $this->publishService->getHtml($domain);
         } catch (\Throwable $e) {
             Logger::error($e);
             $contents = $this->publishService->getUnRegisteredDomainContent();
