@@ -29,6 +29,7 @@
         "hyperf/json-rpc": "^3.0",
         "hyperf/logger": "~3.0.0",
         "hyperf/memory": "~3.0.0",
+        "hyperf/phar": "^3.0",
         "hyperf/process": "~3.0.0",
         "hyperf/redis": "~3.0.0",
         "hyperf/retry": "^3.0",

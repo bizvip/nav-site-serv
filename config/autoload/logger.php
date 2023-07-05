@@ -7,7 +7,7 @@ return [
         'handler'   => [
             'class'       => Monolog\Handler\StreamHandler::class,
             'constructor' => [
-                'stream' => BASE_PATH . '/runtime/logs/hyperf.log',
+                'stream' => RUNTIME_PATH . '/logs/nav-site-serv.log',
                 'level'  => Monolog\Logger::DEBUG,
             ],
         ],

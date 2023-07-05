@@ -25,7 +25,7 @@ return [
         Constant::OPTION_ENABLE_STATIC_HANDLER  => true,
         Constant::OPTION_HTTP_AUTOINDEX         => false,
         Constant::OPTION_HTTP_INDEX_FILES       => ['index.html'],
-        Constant::OPTION_UPLOAD_TMP_DIR         => RUNTIME_PATH . '/tmp',
+        Constant::OPTION_UPLOAD_TMP_DIR         => RUNTIME_PATH . '/uploads',
         Constant::OPTION_HTTP_COMPRESSION       => true,
         Constant::OPTION_HTTP_COMPRESSION_LEVEL => 2,
         Constant::OPTION_ENABLE_COROUTINE       => true,

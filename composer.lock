@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bc63563df73d1c896aee2bb8d425611",
+    "content-hash": "bb6f75f778dd65d691da59f3d97fd39e",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2864,6 +2864,62 @@
             "keywords": [
                 "hyperf",
                 "model-listener",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "time": "2023-04-26T03:02:31+00:00"
+        },
+        {
+            "name": "hyperf/phar",
+            "version": "v3.0.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/phar.git",
+                "reference": "cdce0048f7ccd1af2ebeb28a1fb260bd1621665d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/phar/zipball/cdce0048f7ccd1af2ebeb28a1fb260bd1621665d",
+                "reference": "cdce0048f7ccd1af2ebeb28a1fb260bd1621665d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "hyperf/command": "~3.0.0",
+                "hyperf/contract": "~3.0.0",
+                "nikic/php-parser": "^4.1",
+                "php": ">=7.2",
+                "psr/container": "^1.0|^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                },
+                "hyperf": {
+                    "config": "Hyperf\\Phar\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Phar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A component that supports pack Hyperf project as a Phar stand-alone package.",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "hyperf",
+                "phar",
                 "php",
                 "swoole"
             ],
@@ -7552,16 +7608,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.23",
+            "version": "1.10.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "65ab678d1248a8bc6fde456f0d7ff3562a61a4cd"
+                "reference": "360ecc90569e9a60c2954ee209ec04fa0d958e14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/65ab678d1248a8bc6fde456f0d7ff3562a61a4cd",
-                "reference": "65ab678d1248a8bc6fde456f0d7ff3562a61a4cd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/360ecc90569e9a60c2954ee209ec04fa0d958e14",
+                "reference": "360ecc90569e9a60c2954ee209ec04fa0d958e14",
                 "shasum": ""
             },
             "require": {
@@ -7610,7 +7666,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-04T13:32:44+00:00"
+            "time": "2023-07-05T12:32:13+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
