@@ -8,11 +8,11 @@ return [
     'default' => 'local',
     'storage' => [
         'local'    => [
-            'driver'         => \Hyperf\Filesystem\Adapter\LocalAdapterFactory::class,
-            'root'           => __DIR__ . '/../../public/' . env('UPLOAD_DIR', ''),
-            'admin_web_root' => env('ADMIN_WEB_ROOT'),
-            'publish_root'   => '',
-            'upload_dir'     => env('UPLOAD_DIR'),
+            'driver'        => \Hyperf\Filesystem\Adapter\LocalAdapterFactory::class,
+            'root'          => __DIR__ . '/../../public/' . env('UPLOAD_DIR', ''),
+            'frontend_root' => env('FRONTEND_ROOT'),
+            'public_root'   => env('PUBLIC_ROOT'),
+            'upload_dir'    => env('UPLOAD_DIR'),
         ],
         'oss'      => [
             'driver'       => \Hyperf\Filesystem\Adapter\AliyunOssAdapterFactory::class,

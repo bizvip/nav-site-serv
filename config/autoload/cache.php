@@ -9,4 +9,8 @@ return [
         'packer' => \App\Utils\Packer::class,
         'prefix' => 'c:',
     ],
+    'co'      => [
+        'driver' => Hyperf\Cache\Driver\CoroutineMemoryDriver::class,
+        'packer' => \App\Utils\Packer::class,
+    ],
 ];

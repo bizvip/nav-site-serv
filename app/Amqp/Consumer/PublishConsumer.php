@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Amqp\Consumer;
 
-use App\Business\Services\FileService;
+use App\Business\Services\IndexService;
+use App\Business\Services\SyncService;
+use App\Utils\Logger;
 use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Message\ConsumerMessage;
 use Hyperf\Amqp\Result;
@@ -13,11 +15,23 @@ use PhpAmqpLib\Message\AMQPMessage;
 #[Consumer(exchange: 'publish-exchange', routingKey: 'publish-key', queue: 'publish-queue', name: "PublishConsumer", nums: 1)]
 final class PublishConsumer extends ConsumerMessage
 {
+    private array $cmd = ['sync' => SyncService::class, 'flush' => IndexService::class];
+
+    /**
+     * Array
+     * (
+     * [uploadUrl] => /resources/230707/2OnrrmQM75D1.webp
+     * [publishNewNamePath] => /resources/230707/2OnrrmQM75D1.js
+     * )
+     */
     public function consumeMessage($data, AMQPMessage $message): string
     {
-        print_r($data);
-        $oss = $this->container->get(FileService::class);
-        $oss->downFileFromOss($data['publishNewNamePath']);
-        return Result::ACK;
+        if (!isset($data['func'])) {
+            Logger::alert([$data, '缺少参数func，drop此消息']);
+            return Result::DROP;
+        }
+
+        $obj = $this->container->get($this->cmd[$data['func']]);
+        return $obj->{$data['func']}($data) ? Result::ACK : Result::NACK;
     }
 }

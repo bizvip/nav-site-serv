@@ -7,7 +7,9 @@ namespace App\Business\Services;
 use App\Business\Biz;
 use App\Business\Rpc\Publish;
 use App\Business\Rpc\PublishServiceInterface;
+use App\Exception\BusinessException;
 use App\Utils\Logger;
+use App\Utils\Packer;
 use App\Utils\Str;
 use DeviceDetector\DeviceDetector;
 use Hyperf\Cache\Annotation\Cacheable;
@@ -25,6 +27,29 @@ final class IndexService
 
     #[Inject]
     private Redis $redis;
+
+    public final const HTML_TTL = 1209600;
+
+    public function flush(array $data): bool
+    {
+        if (empty($data['domains'])) {
+            throw new BusinessException(message: '没有任何域名，消费者无法刷新');
+        }
+
+        foreach ($data['domains'] as $domain) {
+            try {
+                $html = $this->publishService->genHtmlByDomain($domain);
+                if ($html) {
+                    $this->redis->set('c:html:' . $domain, Packer::serialize($html), ['EX' => self::HTML_TTL]);
+                }
+            } catch (\Throwable $e) {
+                Logger::error($e);
+                continue;
+            }
+        }
+
+        return true;
+    }
 
     public function saveClick(): void
     {
@@ -95,13 +120,13 @@ final class IndexService
         }
     }
 
-    #[Cacheable(prefix: 'html', value: '#{domain}', ttl: 1209600)]
+    #[Cacheable(prefix: 'html', value: '#{domain}', ttl: self::HTML_TTL)]
     public function getHtml(string $domain): string
     {
         return $this->publishService->genHtmlByDomain($domain);
     }
 
-    #[Cacheable(prefix: 'unknown', ttl: 1209600)]
+    #[Cacheable(prefix: 'unknown', ttl: self::HTML_TTL)]
     public function getUnRegisteredDomainContent(): string
     {
         return $this->publishService->getUnRegisteredDomainContent();

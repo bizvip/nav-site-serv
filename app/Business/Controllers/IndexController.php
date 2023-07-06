@@ -43,7 +43,7 @@ final class IndexController extends AbstractController
 
         return $this->response
             ->withHeader('Content-Type', 'text/html')
-            ->withHeader('Cache-Control', 'public, max-age=120')
+            ->withHeader('Cache-Control', 'public, max-age=60')
             ->withBody(new SwooleStream($contents));
     }
 

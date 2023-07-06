@@ -1,0 +1,80 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Business\Services;
+
+use App\Exception\BusinessException;
+use App\Utils\File\FileManager;
+use App\Utils\Logger;
+use Hyperf\Config\Annotation\Value;
+use Hyperf\Di\Annotation\Inject;
+
+final class SyncService
+{
+    #[Value('file.storage.local.public_root')]
+    private string $localPublicRoot;
+
+    #[Value('file.storage.local.frontend_root')]
+    private string $frontendRoot;
+
+    #[Inject]
+    private FileManager $fileManager;
+
+    /**
+     * Array
+     * (
+     * [uploadUrl] => /resources/230707/2OnrrmQM75D1.webp
+     * [publishNewNamePath] => /resources/230707/2OnrrmQM75D1.js
+     * )
+     * @param array $message
+     * @return bool
+     */
+    public function sync(array $message): bool
+    {
+        if (!isset($message['publishNewNamePath'])) {
+            throw new BusinessException(message: '收到的消息不合法');
+        }
+        if ($file = $this->getFileFromOss($message['publishNewNamePath'])) {
+            return $this->saveToLocalPublic($file, $message['publishNewNamePath']);
+        }
+        return false;
+    }
+
+    public function getFileFromOss(string $path): string
+    {
+        $oss = $this->fileManager->oss();
+        if (!$fileBin = $oss->getFile($path)) {
+            throw new BusinessException(message: '远程文件不存在 ' . $path);
+        }
+        $fs   = $this->fileManager->localFileSys();
+        $path = PUBLIC_PATH . $path;
+        $dir  = pathinfo($path, PATHINFO_DIRNAME);
+        if (!$fs->isDirectory($dir)) {
+            $fs->makeDirectory(path: $dir, recursive: true, force: true);
+        }
+        return $fileBin;
+    }
+
+    public function saveToLocalPublic(string $fileContents, string $filePath): bool
+    {
+        $fs = $this->fileManager->localFileSys();
+        if ($fs->isDirectory($this->localPublicRoot)) {
+            $fs->makeDirectory(path: $this->localPublicRoot, recursive: true, force: true);
+        }
+        if (!is_link($this->frontendRoot)) {
+            try {
+                if (is_file($this->frontendRoot)) {
+                    $fs->delete($this->frontendRoot);
+                }
+                if (is_dir($this->frontendRoot)) {
+                    $fs->deleteDirectories($this->frontendRoot);
+                }
+                $fs->link($this->localPublicRoot, $this->frontendRoot);
+            } catch (\Throwable $e) {
+                Logger::error($e);
+            }
+        }
+        return (bool)file_put_contents($this->localPublicRoot . $filePath, $fileContents);
+    }
+}
