@@ -11,8 +11,8 @@ error_reporting(error_level: 0);
 
 !defined(constant_name: 'BASE_PATH') && define('BASE_PATH', value: dirname(path: __DIR__, levels: 1));
 !defined(constant_name: 'SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', SWOOLE_HOOK_ALL);
-const PUBLIC_PATH  = '/data/wwwroot/7deyeu38ruywe-us-1.m3appmanage.com';
-const RUNTIME_PATH = '/tmp/nav/runtime';
+const PUBLIC_PATH  = '/data/service/nav-site-serv/public';
+const RUNTIME_PATH = '/data/service/nav-site-serv/runtime';
 
 require BASE_PATH . '/vendor/autoload.php';
 
