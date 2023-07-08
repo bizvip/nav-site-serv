@@ -3,7 +3,7 @@
 
 ini_set(option: 'display_errors', value: 'off');
 ini_set(option: 'display_startup_errors', value: 'off');
-ini_set(option: 'memory_limit', value: '10G');
+ini_set(option: 'memory_limit', value: '8G');
 set_time_limit(seconds: 0);
 date_default_timezone_set(timezoneId: 'Asia/Shanghai');
 

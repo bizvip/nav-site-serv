@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Amqp\Consumer;
+namespace App\Business\Amqp\Consumer;
 
 use App\Business\Services\IndexService;
 use App\Business\Services\SyncService;
@@ -31,7 +31,14 @@ final class PublishConsumer extends ConsumerMessage
             return Result::DROP;
         }
 
-        $obj = $this->container->get($this->cmd[$data['func']]);
-        return $obj->{$data['func']}($data) ? Result::ACK : Result::NACK;
+        try {
+            print_r($data);
+            $obj = $this->container->get($this->cmd[$data['func']]);
+            return $obj->{$data['func']}($data) ? Result::ACK : Result::NACK;
+        } catch (\Throwable $e) {
+            Logger::error($e);
+            sleep(5);
+            return Result::NACK;
+        }
     }
 }
