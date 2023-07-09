@@ -28,7 +28,7 @@ final class IndexService
     #[Inject]
     private Redis $redis;
 
-    public final const HTML_TTL = 1209600;
+    public final const HTML_TTL = 0;
 
     public function flush(array $data): bool
     {
