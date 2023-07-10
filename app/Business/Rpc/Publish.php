@@ -8,5 +8,5 @@ final readonly class Publish
 {
     final public const STREAM_COUNTER_KEY = 'sm:counter';
 
-    public static function tsKey(): string { return 'ts'; }
+    public static function domainKey(string $domain): string { return 'c:html:' . $domain; }
 }

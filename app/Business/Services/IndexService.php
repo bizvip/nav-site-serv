@@ -40,8 +40,10 @@ final class IndexService
             try {
                 $html = $this->publishService->genHtmlByDomain($domain);
                 if ($html) {
-                    $this->redis->set('c:html:' . $domain, Packer::serialize($html), ['EX' => self::HTML_TTL]);
+                    $r = $this->redis->set(Publish::domainKey($domain), Packer::serialize($html));
+                    var_dump($r);
                 }
+                sleep(1);
             } catch (\Throwable $e) {
                 Logger::error($e);
                 continue;

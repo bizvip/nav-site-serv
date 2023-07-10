@@ -32,7 +32,6 @@ final class PublishConsumer extends ConsumerMessage
         }
 
         try {
-            print_r($data);
             $obj = $this->container->get($this->cmd[$data['func']]);
             return $obj->{$data['func']}($data) ? Result::ACK : Result::NACK;
         } catch (\Throwable $e) {
