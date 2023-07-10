@@ -5,10 +5,10 @@ declare(strict_types=1);
 return [
     'default' => [
         'handler'   => [
-            'class'       => Monolog\Handler\StreamHandler::class,
+            'class'       => Monolog\Handler\RotatingFileHandler::class,
             'constructor' => [
-                'stream' => RUNTIME_PATH . '/logs/nav-site-serv.log',
-                'level'  => Monolog\Logger::DEBUG,
+                'filename' => RUNTIME_PATH . '/logs/' . date('Y-m-d') . '.log',
+                'level'    => Monolog\Level::Debug,
             ],
         ],
         'formatter' => [
