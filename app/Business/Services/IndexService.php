@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Business\Services;
 
 use App\Business\Biz;
+use App\Business\Rpc\Publish;
 use App\Business\Rpc\PublishServiceInterface;
 use App\Exception\BusinessException;
 use App\Utils\Logger;
@@ -39,7 +40,7 @@ final class IndexService
             try {
                 $html = $this->publishService->genHtmlByDomain($domain);
                 if ($html) {
-                    $this->redis->set($this->publishService::getDomainKey($domain), Packer::serialize($html));
+                    $this->redis->set(Publish::getDomainKey($domain), Packer::serialize($html));
                 }
                 sleep(1);
             } catch (\Throwable $e) {
@@ -112,7 +113,7 @@ final class IndexService
             if (!$data['id']) {
                 return false;
             }
-            $xId = $this->redis->xAdd($this->publishService::getCounterKey(), '*', $data, 1000000, true);
+            $xId = $this->redis->xAdd(Publish::COUNTER_KEY, '*', $data, 1000000, true);
             return is_string($xId) && strlen($xId) > 10;
         } catch (\Throwable $e) {
             Logger::error($e);

@@ -17,10 +17,4 @@ interface PublishServiceInterface
     public function getOssBaseUri(): string;
 
     public function getUnRegisteredDomainContent(): string;
-
-    public static function getDomainKey(string $domain): string;
-
-    public static function getCounterKey(): string;
-
-    public static function flushMessaged(int $siteId): bool;
 }
