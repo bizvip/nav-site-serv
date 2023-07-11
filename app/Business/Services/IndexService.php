@@ -38,8 +38,8 @@ final class IndexService
 
         foreach ($data['domains'] as $domain) {
             try {
-                $html = $this->publishService->genHtmlByDomain($domain);
-                if ($html) {
+                $html = $this->publishService->getHtmlBuildFromDomain($domain);
+                if (mb_strlen($html) > 10) {
                     $this->redis->set(Publish::getDomainKey($domain), Packer::serialize($html));
                 }
                 sleep(1);
@@ -58,7 +58,8 @@ final class IndexService
         // Coroutine::create(function () use ($headers, $params) {
         $params = $this->request->all();
 
-        $id = !empty($params['url']) ? Str::hashToId(hash: $params['url'], salt: Biz::ID_HASH_SALT) : '';
+        $id = !empty($params['url']) ? Str::hashToId(hash: $params['url'], salt: Biz::ID_HASH_SALT)
+            : '';
 
         $domain = !empty($params['domain']) ? $params['domain'] : $this->request->url();
 
@@ -122,9 +123,9 @@ final class IndexService
     }
 
     #[Cacheable(prefix: 'html', value: '#{domain}', ttl: self::HTML_TTL)]
-    public function getHtml(string $domain): string
+    public function getHtmlFromCache(string $domain): string
     {
-        return $this->publishService->genHtmlByDomain($domain);
+        return $this->publishService->getHtmlBuildFromDomain($domain);
     }
 
     #[Cacheable(prefix: 'unknown', ttl: self::HTML_TTL)]
