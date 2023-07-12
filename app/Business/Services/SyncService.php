@@ -35,9 +35,11 @@ final class SyncService
         if (!isset($message['publishNewNamePath'])) {
             throw new BusinessException(message: '收到的消息不合法');
         }
-        if ($file = $this->getFileFromOss($message['publishNewNamePath'])) {
+
+        if ($file = \Hyperf\Support\retry(3, $this->getFileFromOss($message['publishNewNamePath']), 3)) {
             return $this->saveToLocalPublic($file, $message['publishNewNamePath']);
         }
+        
         return false;
     }
 
