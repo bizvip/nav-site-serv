@@ -33,7 +33,7 @@ final class IndexService
     public function flush(array $data): bool
     {
         if (empty($data['domains'])) {
-            throw new BusinessException(message: '没有任何域名，消费者无法刷新');
+            throw new BusinessException(message: '没有任何域名，消费者无刷新');
         }
 
         foreach ($data['domains'] as $domain) {
@@ -72,7 +72,7 @@ final class IndexService
         $dd = new DeviceDetector($ua);
         $dd->parse();
 
-        //Array
+        // Array
         // (
         //     [type] => browser
         //     [name] => Chrome Mobile
@@ -83,7 +83,7 @@ final class IndexService
         //     [family] => Chrome
         // )
 
-        //Array
+        // Array
         // (
         //     [name] => Android
         //     [short_name] => AND
@@ -93,10 +93,12 @@ final class IndexService
         // )
 
         $this->pushClickToStream([
+            'ip'         => $this->request->getServerParams()['remote_addr'],
             'id'         => $id,
             'domain'     => $domain,
             'schema'     => $schema,
             'ua'         => $ua,
+            'brand'      => $dd->getBrandName(),
             'type'       => $dd->getClient('type'),
             'name'       => $dd->getClient('name'),
             'version'    => $dd->getClient('version'),

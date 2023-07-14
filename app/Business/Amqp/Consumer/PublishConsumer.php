@@ -10,11 +10,16 @@ use App\Utils\Logger;
 use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Message\ConsumerMessage;
 use Hyperf\Amqp\Result;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\Redis\Redis;
 use PhpAmqpLib\Message\AMQPMessage;
 
 #[Consumer(exchange: 'publish-exchange', routingKey: 'publish-key', queue: 'publish-queue', name: "PublishConsumer", nums: 1)]
 final class PublishConsumer extends ConsumerMessage
 {
+    #[Inject]
+    private Redis $redis;
+
     private array $cmd = ['sync' => SyncService::class, 'flush' => IndexService::class];
 
     /**
@@ -33,11 +38,16 @@ final class PublishConsumer extends ConsumerMessage
 
         try {
             $obj = $this->container->get($this->cmd[$data['func']]);
-            return $obj->{$data['func']}($data) ? Result::ACK : Result::NACK;
-        } catch (\Throwable $e) {
-            Logger::error($e);
+            $r   = $obj->{$data['func']}($data);
+            if (true === $r) {
+                return Result::ACK;
+            }
+
             sleep(5);
             return Result::NACK;
+        } catch (\Throwable $e) {
+            Logger::error($e);
+            return Result::DROP;
         }
     }
 }

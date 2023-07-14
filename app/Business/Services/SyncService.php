@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Business\Services;
 
+use App\Business\Rpc\PublishServiceInterface;
 use App\Exception\BusinessException;
 use App\Utils\File\FileManager;
 use App\Utils\Logger;
@@ -21,26 +22,38 @@ final class SyncService
     #[Inject]
     private FileManager $fileManager;
 
+    #[Inject]
+    private PublishServiceInterface $publishService;
+
     /**
      * Array
      * (
-     * [uploadUrl] => /resources/230707/2OnrrmQM75D1.webp
-     * [publishNewNamePath] => /resources/230707/2OnrrmQM75D1.js
+     * [func] => sync
+     * [publishName] => Mwj9b1evKMWV.js
      * )
-     * @param array $message
-     * @return bool
      */
-    public function sync(array $message): bool
+    public function sync(array $data): bool
     {
-        if (!isset($message['publishNewNamePath'])) {
+        print_r($data);
+
+        if (!isset($data['publishName'])) {
             throw new BusinessException(message: '收到的消息不合法');
         }
 
-        if ($file = \Hyperf\Support\retry(3, $this->getFileFromOss($message['publishNewNamePath']), 3)) {
-            return $this->saveToLocalPublic($file, $message['publishNewNamePath']);
+        $content = $this->publishService->getImage($data['publishName']);
+        $image   = base64_decode($content);
+
+        $localDir      = PUBLIC_PATH . $data['path']['dirname'];
+        $localFileName = PUBLIC_PATH . $data['path']['dirname'] . DIRECTORY_SEPARATOR . $data['publishName'];
+
+        $fs = $this->fileManager->localFileSys();
+
+        if ($fs->isDirectory($localDir)) {
+            return file_put_contents($localFileName, $image) > 0;
         }
-        
-        return false;
+
+        $fs->makeDirectory($localDir, 0755, true, true);
+        return file_put_contents($localFileName, $image) > 0;
     }
 
     public function getFileFromOss(string $path): string

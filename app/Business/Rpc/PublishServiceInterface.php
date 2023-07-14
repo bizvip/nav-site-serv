@@ -12,9 +12,11 @@ interface PublishServiceInterface
 {
     public function getHtmlBuildFromDomain(string $domain): string;
 
-    public function getImage(string $path): string;
+    public function getImage(string $publishName): string;
 
     public function getOssBaseUri(): string;
 
     public function getUnRegisteredDomainContent(): string;
+
+    public function batchWriteToDb(array $items): array;
 }
