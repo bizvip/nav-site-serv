@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Change to the working directory
-cd /data/service/nav-site-serv
+cd /data/service/nav-site-serv &&
 
 # Pull the latest changes from the repository
-git pull
+git pull &&
 
 # Remove the 'runtime' directory
-rm -rf runtime
+rm -rf runtime &&
 
 # Restart the service
-sudo systemctl restart nav-site-serv.service
+sudo systemctl restart nav-site-serv.service &&
 
-sudo journalctl -u nav-site-serv -n 70
+sudo journalctl -u nav-site-serv -n 50
