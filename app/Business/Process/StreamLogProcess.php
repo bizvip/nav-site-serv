@@ -6,6 +6,7 @@ namespace App\Business\Process;
 
 use App\Business\Rpc\Publish;
 use App\Business\Rpc\PublishServiceInterface;
+use App\Utils\JSON;
 use App\Utils\Logger;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Process\AbstractProcess;
@@ -38,9 +39,8 @@ final class StreamLogProcess extends AbstractProcess
     private function process(): void
     {
         $items = $this->redis->xRead([Publish::COUNTER_KEY => '0-0'], 500, -1);
-        var_dump(count($items));
-        var_dump(count($items[Publish::COUNTER_KEY]));
-        if (isset($items[Publish::COUNTER_KEY])) {
+        if (count($items[Publish::COUNTER_KEY]) > 0) {
+            echo strlen(JSON::encode($items)), PHP_EOL;
             $list = $this->publishService->batchWriteToDb($items[Publish::COUNTER_KEY]);
             foreach ($list as $v) {
                 $this->redis->xDel(Publish::COUNTER_KEY, $v);
