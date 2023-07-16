@@ -14,10 +14,10 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Logger\LoggerFactory;
 
 /**
- * @method static void error(array|string|\Stringable $logData, string $channel = null)
- * @method static void info(array|string|\Stringable $logData, string $channel = null)
- * @method static void debug(array|string|\Stringable $logData, string $channel = null)
- * @method static void alert(array|string|\Stringable $logData, string $channel = null)
+ * @method static void error(array|int|string|\Stringable $logData, string $channel = null)
+ * @method static void info(array|int|string|\Stringable $logData, string $channel = null)
+ * @method static void debug(array|int|string|\Stringable $logData, string $channel = null)
+ * @method static void alert(array|int|string|\Stringable $logData, string $channel = null)
  */
 final class Logger
 {
@@ -25,7 +25,7 @@ final class Logger
     {
         if (isset($args[1])) {
             $channel = $args[1];
-        } elseif (isset($args['channel'])) {
+        } else if (isset($args['channel'])) {
             $channel = $args['channel'];
         } else {
             $channel = config('app_env');
@@ -33,7 +33,7 @@ final class Logger
 
         if (isset($args[0])) {
             $text = $args[0];
-        } elseif (isset($args['logData'])) {
+        } else if (isset($args['logData'])) {
             $text = $args['logData'];
         } else {
             $text = 'Logger 没有记录到任何错误消息';
