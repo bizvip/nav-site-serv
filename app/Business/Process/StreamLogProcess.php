@@ -37,6 +37,7 @@ final class StreamLogProcess extends AbstractProcess
     private function process(): void
     {
         $items = $this->redis->xRead([Publish::COUNTER_KEY => '0-0'], 500, -1);
+        var_dump(count($items));
         if (isset($items[Publish::COUNTER_KEY])) {
             $list = $this->publishService->batchWriteToDb($items[Publish::COUNTER_KEY]);
             var_dump($list);
