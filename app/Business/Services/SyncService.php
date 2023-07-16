@@ -40,6 +40,7 @@ final class SyncService
         }
 
         $content = $this->publishService->getImage($data['publishName']);
+        echo strlen($content),PHP_EOL;
         $image   = base64_decode($content);
 
         $localDir      = PUBLIC_PATH . $data['path']['dirname'];
