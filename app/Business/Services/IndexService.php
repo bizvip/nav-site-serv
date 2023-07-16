@@ -94,6 +94,7 @@ final class IndexService
 
         $this->pushClickToStream([
             'ip'         => $this->request->getServerParams()['remote_addr'],
+            'click_time' => date('Y-m-d H:i:s'),
             'id'         => $id,
             'domain'     => $domain,
             'schema'     => $schema,
