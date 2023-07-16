@@ -951,17 +951,17 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.21.1",
-            "version_normalized": "3.21.1.0",
+            "version": "v3.21.2",
+            "version_normalized": "3.21.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "229b55b3eae4729a8e2a321441ba40fcb3720b86"
+                "reference": "80f68059bd371cd42c7b03bb6caa6352faed5b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/229b55b3eae4729a8e2a321441ba40fcb3720b86",
-                "reference": "229b55b3eae4729a8e2a321441ba40fcb3720b86",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/80f68059bd371cd42c7b03bb6caa6352faed5b8e",
+                "reference": "80f68059bd371cd42c7b03bb6caa6352faed5b8e",
                 "shasum": ""
             },
             "require": {
@@ -971,7 +971,7 @@
                 "doctrine/lexer": "^2 || ^3",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
-                "php": "^8.0.1",
+                "php": "^7.4 || ^8.0",
                 "sebastian/diff": "^4.0 || ^5.0",
                 "symfony/console": "^5.4 || ^6.0",
                 "symfony/event-dispatcher": "^5.4 || ^6.0",
@@ -985,6 +985,7 @@
                 "symfony/stopwatch": "^5.4 || ^6.0"
             },
             "require-dev": {
+                "facile-it/paraunit": "^1.3 || ^2.0",
                 "justinrainbow/json-schema": "^5.2",
                 "keradus/cli-executor": "^2.0",
                 "mikey179/vfsstream": "^1.6.11",
@@ -1004,7 +1005,7 @@
                 "ext-dom": "For handling output formats in XML",
                 "ext-mbstring": "For handling non-UTF8 characters."
             },
-            "time": "2023-07-05T21:50:25+00:00",
+            "time": "2023-07-16T09:28:11+00:00",
             "bin": [
                 "php-cs-fixer"
             ],
@@ -1038,7 +1039,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.21.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.21.2"
             },
             "funding": [
                 {
@@ -1816,17 +1817,17 @@
         },
         {
             "name": "hyperf/collection",
-            "version": "v3.0.24",
-            "version_normalized": "3.0.24.0",
+            "version": "v3.0.29",
+            "version_normalized": "3.0.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/collection.git",
-                "reference": "25be1f5643565dd19c05ee2da4156cfaa8bb71eb"
+                "reference": "c2e3f919f8c445da69e0e0c10920c6fc0754b9ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/collection/zipball/25be1f5643565dd19c05ee2da4156cfaa8bb71eb",
-                "reference": "25be1f5643565dd19c05ee2da4156cfaa8bb71eb",
+                "url": "https://api.github.com/repos/hyperf/collection/zipball/c2e3f919f8c445da69e0e0c10920c6fc0754b9ad",
+                "reference": "c2e3f919f8c445da69e0e0c10920c6fc0754b9ad",
                 "shasum": ""
             },
             "require": {
@@ -1834,7 +1835,7 @@
                 "hyperf/macroable": "~3.0.0",
                 "php": ">=7.4"
             },
-            "time": "2023-06-05T11:54:56+00:00",
+            "time": "2023-07-14T03:41:52+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2681,21 +2682,21 @@
         },
         {
             "name": "hyperf/engine",
-            "version": "v2.9.0",
-            "version_normalized": "2.9.0.0",
+            "version": "v2.10.0",
+            "version_normalized": "2.10.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/engine.git",
-                "reference": "3e0920ad7ba15a965f129143d3248f8e85e0c2d9"
+                "reference": "9b27b29041403b8ee397ffe1e5254816e18cb5b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/engine/zipball/3e0920ad7ba15a965f129143d3248f8e85e0c2d9",
-                "reference": "3e0920ad7ba15a965f129143d3248f8e85e0c2d9",
+                "url": "https://api.github.com/repos/hyperf/engine/zipball/9b27b29041403b8ee397ffe1e5254816e18cb5b9",
+                "reference": "9b27b29041403b8ee397ffe1e5254816e18cb5b9",
                 "shasum": ""
             },
             "require": {
-                "hyperf/engine-contract": "~1.8.0",
+                "hyperf/engine-contract": "~1.9.0",
                 "php": ">=8.0"
             },
             "conflict": {
@@ -2716,11 +2717,11 @@
                 "hyperf/http-message": "Required to use ResponseEmitter.",
                 "psr/http-message": "Required to use WebSocket Frame."
             },
-            "time": "2023-06-17T11:23:50+00:00",
+            "time": "2023-07-14T02:28:58+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.9-dev"
+                    "dev-master": "2.10-dev"
                 },
                 "hyperf": {
                     "config": "Hyperf\\Engine\\ConfigProvider"
@@ -2748,23 +2749,23 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/engine/issues",
-                "source": "https://github.com/hyperf/engine/tree/v2.9.0"
+                "source": "https://github.com/hyperf/engine/tree/v2.10.0"
             },
             "install-path": "../hyperf/engine"
         },
         {
             "name": "hyperf/engine-contract",
-            "version": "v1.8.0",
-            "version_normalized": "1.8.0.0",
+            "version": "v1.9.0",
+            "version_normalized": "1.9.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/engine-contract.git",
-                "reference": "69b9bb43d6c356be7c7eb2f55ff06282436a0e4d"
+                "reference": "45c9c49766d8b0e539975fe4c5ed6807221c4b38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/engine-contract/zipball/69b9bb43d6c356be7c7eb2f55ff06282436a0e4d",
-                "reference": "69b9bb43d6c356be7c7eb2f55ff06282436a0e4d",
+                "url": "https://api.github.com/repos/hyperf/engine-contract/zipball/45c9c49766d8b0e539975fe4c5ed6807221c4b38",
+                "reference": "45c9c49766d8b0e539975fe4c5ed6807221c4b38",
                 "shasum": ""
             },
             "require": {
@@ -2781,11 +2782,11 @@
             "suggest": {
                 "psr/http-message": "Required to use WebSocket Frame."
             },
-            "time": "2023-06-17T11:16:19+00:00",
+            "time": "2023-07-14T02:21:02+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8-dev"
+                    "dev-master": "1.9-dev"
                 }
             },
             "installation-source": "dist",
@@ -2808,7 +2809,7 @@
             ],
             "support": {
                 "issues": "https://github.com/hyperf/engine-contract/issues",
-                "source": "https://github.com/hyperf/engine-contract/tree/v1.8.0"
+                "source": "https://github.com/hyperf/engine-contract/tree/v1.9.0"
             },
             "install-path": "../hyperf/engine-contract"
         },
