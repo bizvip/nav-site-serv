@@ -6,6 +6,7 @@ namespace App\Business\Process;
 
 use App\Business\Rpc\Publish;
 use App\Business\Rpc\PublishServiceInterface;
+use App\Utils\Logger;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\Annotation\Process;
@@ -28,7 +29,7 @@ final class StreamLogProcess extends AbstractProcess
             try {
                 $this->process();
             } catch (\Throwable $e) {
-                echo $e->getMessage(), PHP_EOL;
+                Logger::error($e);
             }
             sleep(60);
         }
