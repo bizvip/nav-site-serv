@@ -47,6 +47,7 @@ final class SyncService
 
         $fs = $this->fileManager->localFileSys();
 
+        echo $localDir,PHP_EOL,$localFileName,PHP_EOL;
         if ($fs->isDirectory($localDir)) {
             return file_put_contents($localFileName, $image) > 0;
         }
