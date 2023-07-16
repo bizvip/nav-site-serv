@@ -10,16 +10,11 @@ use App\Utils\Logger;
 use Hyperf\Amqp\Annotation\Consumer;
 use Hyperf\Amqp\Message\ConsumerMessage;
 use Hyperf\Amqp\Result;
-use Hyperf\Di\Annotation\Inject;
-use Hyperf\Redis\Redis;
 use PhpAmqpLib\Message\AMQPMessage;
 
 #[Consumer(exchange: 'publish-exchange', routingKey: 'publish-key', queue: 'publish-queue', name: "PublishConsumer", nums: 1)]
 final class PublishConsumer extends ConsumerMessage
 {
-    #[Inject]
-    private Redis $redis;
-
     private array $cmd = ['sync' => SyncService::class, 'flush' => IndexService::class];
 
     /**
@@ -42,9 +37,8 @@ final class PublishConsumer extends ConsumerMessage
             if (true === $r) {
                 return Result::ACK;
             }
-
-            sleep(5);
-            return Result::NACK;
+            Logger::alert(['消费失败，所以drop此消息', $data]);
+            return Result::DROP;
         } catch (\Throwable $e) {
             Logger::error($e);
             return Result::DROP;
