@@ -20,8 +20,8 @@ return [
             ],
             // 配置项，会影响到 Packer 和 Transporter
             'options'       => [
-                'connect_timeout' => 5.0,
-                'recv_timeout'    => 5.0,
+                'connect_timeout' => 10.0,
+                'recv_timeout'    => 10.0,
                 // 'settings'        => [
                 // 根据协议不同，区分配置
                 // 'open_eof_split' => true,
@@ -36,15 +36,15 @@ return [
                 // 重试间隔，毫秒
                 'retry_interval'  => 100,
                 // 使用多路复用 RPC 时的心跳间隔，null 为不触发心跳
-                'heartbeat'       => 120,
+                'heartbeat'       => 100,
                 // JsonRpcPoolTransporter
                 'pool'            => [
                     'min_connections' => 1,
                     'max_connections' => 32,
-                    'connect_timeout' => 10.0,
-                    'wait_timeout'    => 3.0,
+                    'connect_timeout' => 60.0,
+                    'wait_timeout'    => 10.0,
                     'heartbeat'       => -1,
-                    'max_idle_time'   => 60.0,
+                    'max_idle_time'   => 120.0,
                 ],
             ],
         ],
