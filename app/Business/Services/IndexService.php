@@ -58,8 +58,7 @@ final class IndexService
         // Coroutine::create(function () use ($headers, $params) {
         $params = $this->request->all();
 
-        $id = !empty($params['url']) ? Str::hashToId(hash: $params['url'], salt: Biz::ID_HASH_SALT)
-            : '';
+        $id = !empty($params['url']) ? Str::hashToId(hash: $params['url'], salt: Biz::ID_HASH_SALT) : '';
 
         $domain = !empty($params['domain']) ? $params['domain'] : $this->request->url();
 
