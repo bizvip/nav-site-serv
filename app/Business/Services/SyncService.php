@@ -40,7 +40,6 @@ final class SyncService
         }
 
         $content = $this->publishService->getImage($data['publishName']);
-        echo strlen($content),PHP_EOL;
         $image   = base64_decode($content);
 
         $localDir      = PUBLIC_PATH . $data['path']['dirname'];
@@ -48,7 +47,6 @@ final class SyncService
 
         $fs = $this->fileManager->localFileSys();
 
-        echo $localDir,PHP_EOL,$localFileName,PHP_EOL;
         if ($fs->isDirectory($localDir)) {
             return file_put_contents($localFileName, $image) > 0;
         }

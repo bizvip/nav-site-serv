@@ -42,7 +42,7 @@ final class IndexService
                 if (mb_strlen($html) > 10) {
                     $this->redis->set(Publish::getDomainKey($domain), Packer::serialize($html));
                 }
-                sleep(1);
+                usleep(5 * 100000);
             } catch (\Throwable $e) {
                 Logger::error($e);
                 continue;
@@ -117,9 +117,11 @@ final class IndexService
                 return false;
             }
             $xId = $this->redis->xAdd(Publish::COUNTER_KEY, '*', $data, 1000000, true);
+
             return is_string($xId) && strlen($xId) > 10;
         } catch (\Throwable $e) {
             Logger::error($e);
+
             return false;
         }
     }
