@@ -1,11 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env php
+<?php
+//不建议使用bash
+$commands = [
+    "cd /data/service/nav-site-serv",
+    "git pull",
+    "rm -rf runtime",
+    "sudo systemctl restart nav-site-serv.service",
+    "sudo journalctl -u nav-site-serv -n 50",
+];
 
-cd /data/service/nav-site-serv &&
-
-git pull &&
-
-rm -rf runtime &&
-
-sudo systemctl restart nav-site-serv.service &&
-
-sudo journalctl -u nav-site-serv -n 50
+foreach ($commands as $command) {
+    $output = shell_exec($command);
+    echo PHP_EOL, $output, PHP_EOL;
+    usleep(500000);
+}
