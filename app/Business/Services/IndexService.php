@@ -91,8 +91,18 @@ final class IndexService
         //     [family] => Android
         // )
 
+        if ($ipAddress = $this->request->header('x-forwarded-for')) {
+            $ipAddress = Str::firstBySeparator($ipAddress);
+        }
+        if (!$ipAddress) {
+            $ipAddress = $this->request->header('x-real-ip');
+        }
+        if (!$ipAddress) {
+            $ipAddress = $this->request->getServerParams()['remote_addr'];
+        }
+
         $this->pushClickToStream([
-            'ip'         => $this->request->getServerParams()['remote_addr'],
+            'ip'         => $ipAddress ?? '0.0.0.0',
             'click_time' => date('Y-m-d H:i:s'),
             'id'         => $id,
             'domain'     => $domain,
