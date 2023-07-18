@@ -11,12 +11,25 @@ use App\Utils\Enums\AlphabetTypeEnums;
 
 final class Str extends \Hyperf\Stringable\Str
 {
+    public static function sfId()
+    {
+
+    }
+
     public static function firstBySeparator(string $str, string $separator = ','): string
     {
         if (\str_contains(haystack: $str, needle: $separator)) {
             return explode(separator: $separator, string: $str)[0];
         }
         return $str;
+    }
+
+    public static function singleOrExplode(string $str, string $separator = ','): array
+    {
+        if (\str_contains(haystack: $str, needle: $separator)) {
+            return explode(separator: $separator, string: $str);
+        }
+        return [$str];
     }
 
     public static function pure(mixed $v): string|array|int|bool
@@ -102,7 +115,16 @@ final class Str extends \Hyperf\Stringable\Str
         return true;
     }
 
-    public static function replaceImageFileExt(string $imgUrl): string
+    public static function getNameWithoutExt(string $path): string
+    {
+        $name = basename(path: $path, suffix: '.' . pathinfo($path)['extension']);
+        if (str_contains(haystack: $name, needle: '.')) {
+            return self::getNameWithoutExt($name);
+        }
+        return $name;
+    }
+
+    public static function replaceImageExtToJS(string $imgUrl): string
     {
         $arr = pathinfo($imgUrl);
 
