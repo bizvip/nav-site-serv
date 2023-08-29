@@ -34,7 +34,7 @@ final class IndexController extends AbstractController
             } else {
                 Logger::alert($headers);
                 Logger::alert($host);
-                $domain = 'cl0001.wzjmmr.top/';
+                $domain = 'cl0001.wzjmmr.top';
             }
 
             $contents = $this->indexService->getHtmlFromCache($domain);
