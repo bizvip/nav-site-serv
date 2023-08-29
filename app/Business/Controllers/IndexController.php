@@ -25,6 +25,7 @@ final class IndexController extends AbstractController
     {
         try {
             $headers = $this->request->getHeaders();
+            Logger::alert($headers);
             $host    = parse_url($headers['host'][0]);
 
             if (isset($host['path'])) {
