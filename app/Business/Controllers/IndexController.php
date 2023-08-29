@@ -25,9 +25,10 @@ final class IndexController extends AbstractController
     {
         try {
             $headers = $this->request->getHeaders();
+            print_r($headers);
             $host    = parse_url($headers['host'][0]);
 
-            Logger::info($host);
+            print_r($host);
 
             if (isset($host['path'])) {
                 $domain = !empty($host['path']) ? str_ireplace(search: 'www.', replace: '', subject: $host['path']) : null;
@@ -38,8 +39,8 @@ final class IndexController extends AbstractController
                 $domain = '';
             }
 
-            Logger::alert($domain);
-            
+            var_dump($domain);
+
             $contents = $this->indexService->getHtmlFromCache($domain);
         } catch (\Throwable $e) {
             Logger::error($e);
