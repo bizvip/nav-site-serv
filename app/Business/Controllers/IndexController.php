@@ -35,6 +35,7 @@ final class IndexController extends AbstractController
                 Logger::error(['get host header failed, set to default ""', $headers, $host,]);
                 $domain = '';
             }
+            echo $domain,PHP_EOL;
             $contents = $this->indexService->getHtmlFromCache($domain);
         } catch (\Throwable $e) {
             Logger::error($e);
