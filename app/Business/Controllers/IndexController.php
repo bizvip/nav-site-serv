@@ -25,21 +25,17 @@ final class IndexController extends AbstractController
     {
         try {
             $headers = $this->request->getHeaders();
-            print_r($headers);
             $host    = parse_url($headers['host'][0]);
-
-            print_r($host);
 
             if (isset($host['path'])) {
                 $domain = !empty($host['path']) ? str_ireplace(search: 'www.', replace: '', subject: $host['path']) : null;
             } elseif (isset($host['host'])) {
                 $domain = !empty($host['host']) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                Logger::error(['get host header failed, set to default ""', $headers, $host,]);
-                $domain = '';
+                Logger::alert($headers);
+                Logger::alert($host);
+                $domain = 'cl0001.wzjmmr.top/';
             }
-
-            var_dump($domain);
 
             $contents = $this->indexService->getHtmlFromCache($domain);
         } catch (\Throwable $e) {
