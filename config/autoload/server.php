@@ -13,7 +13,7 @@ return [
             'name'      => 'http',
             'type'      => ServerInterface::SERVER_HTTP,
             'host'      => '127.0.0.1',
-            'port'      => 8818,
+            'port'      => 18898,
             'sock_type' => SWOOLE_SOCK_TCP,
             'callbacks' => [
                 Event::ON_REQUEST => [Hyperf\HttpServer\Server::class, 'onRequest'],
