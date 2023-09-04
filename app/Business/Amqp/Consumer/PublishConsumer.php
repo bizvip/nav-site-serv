@@ -30,7 +30,7 @@ final class PublishConsumer extends ConsumerMessage
             Logger::alert([$data, '缺少参数func，drop此消息']);
             return Result::DROP;
         }
-print_r($data);
+        print_r($data);
         try {
             $obj = $this->container->get($this->cmd[$data['func']]);
             $r   = $obj->{$data['func']}($data);

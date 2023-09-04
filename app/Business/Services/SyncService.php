@@ -35,7 +35,6 @@ final class SyncService
     public function sync(array $data): bool
     {
         if (!isset($data['publishName'])) {
-            print_r($data);
             throw new BusinessException(message: '收到的消息不合法');
         }
 
