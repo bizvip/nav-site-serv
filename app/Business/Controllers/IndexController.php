@@ -25,7 +25,6 @@ final class IndexController extends AbstractController
     {
         try {
             $headers = $this->request->getHeaders();
-            Logger::alert($headers);
             $host    = parse_url($headers['host'][0]);
 
             if (isset($host['path'])) {
@@ -33,8 +32,6 @@ final class IndexController extends AbstractController
             } elseif (isset($host['host'])) {
                 $domain = !empty($host['host']) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                Logger::alert($headers);
-                Logger::alert($host);
                 $domain = 'cl0001.wzjmmr.top';
             }
 
