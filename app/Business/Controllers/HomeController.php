@@ -25,7 +25,7 @@ final class HomeController extends AbstractController
     {
         try {
             $headers = $this->request->getHeaders();
-            if (!isset($headers['referer']) || $headers['referer'] !== 'xxhwc.com.cn') {
+            if (!isset($headers['referer']) || $headers['referer'][0] !== 'xxhwc.com.cn') {
                 return $this->response->withBody(new SwooleStream('this site is building ... '));
             }
 
