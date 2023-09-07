@@ -11,3 +11,4 @@ runtime/
 .phpunit*
 *.cache
 .vscode/
+public/resources/*
