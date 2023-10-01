@@ -16,8 +16,7 @@ final class FileManager
 
     public function oss(): StorageAdapter
     {
-        return ApplicationContext::getContainer()->get(StorageAdapter::class)
-            ->setFilesystem($this->factory->get('layer_s3'));
+        return ApplicationContext::getContainer()->get(StorageAdapter::class)->setFilesystem($this->factory->get('layer_s3'));
     }
 
     public function local(): StorageAdapter

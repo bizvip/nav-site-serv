@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace Hyperf\Engine;
 
 use Hyperf\Engine\Contract\WebSocket\FrameInterface;
@@ -20,19 +21,19 @@ function swoole_get_flags_from_frame(FrameInterface $frame): int
 {
     $flags = 0;
     if ($frame->getFin()) {
-        $flags = $flags | SWOOLE_WEBSOCKET_FLAG_FIN;
+        $flags |= SWOOLE_WEBSOCKET_FLAG_FIN;
     }
     if ($frame->getRSV1()) {
-        $flags = $flags | SWOOLE_WEBSOCKET_FLAG_RSV1;
+        $flags |= SWOOLE_WEBSOCKET_FLAG_RSV1;
     }
     if ($frame->getRSV2()) {
-        $flags = $flags | SWOOLE_WEBSOCKET_FLAG_RSV2;
+        $flags |= SWOOLE_WEBSOCKET_FLAG_RSV2;
     }
     if ($frame->getRSV3()) {
-        $flags = $flags | SWOOLE_WEBSOCKET_FLAG_RSV3;
+        $flags |= SWOOLE_WEBSOCKET_FLAG_RSV3;
     }
     if ($frame->getMask()) {
-        $flags = $flags | SWOOLE_WEBSOCKET_FLAG_MASK;
+        $flags |= SWOOLE_WEBSOCKET_FLAG_MASK;
     }
 
     return $flags;

@@ -3,6 +3,88 @@ CHANGELOG for PHP CS Fixer
 
 This file contains changelogs for stable releases only.
 
+Changelog for v3.34.0
+---------------------
+
+* feat: Introduce `check` command (alias for `fix --dry-run`) (#7322)
+
+Changelog for v3.33.0
+---------------------
+
+* feat: Introduce `native_type_declaration_casing` fixer (#7330)
+
+Changelog for v3.32.0
+---------------------
+
+* deps: Prevent using PHPCSFixer along with `unfinalize` package (#7343)
+* feat: Deprecate `CompactNullableTypehintFixer` and proxy to `CompactNullableTypeDeclarationFixer` (#7339)
+* feat: Deprecate `CurlyBracesPositionFixer` and proxy to `BracesPositionFixer` (#7334)
+* feat: Deprecate `NewWithBracesFixer` and proxy to `NewWithParenthesesFixer` (#7331)
+* feat: Deprecate `NoUnneededCurlyBracesFixer` and proxy to `NoUnneededBracesFixer` (#7335)
+* feat: Rename `CurlyBraceTransformer` to `BraceTransformer` (#7333)
+
+Changelog for v3.31.0
+---------------------
+
+* chore: Use type declaration instead of type hint (#7338)
+* feat: Introduce `attribute_placement` option for `MethodArgumentSpaceFixer` (#7320)
+* fix: Adjust wording related to deprecations (#7332)
+* fix: Correct deprecation header in rules' docs (#7337)
+* fix: Replace mention of bracket with parenthesis (#7336)
+* fix: `FunctionToConstantFixer` should run before `NativeConstantInvocationFixer` (#7344)
+
+Changelog for v3.30.0
+---------------------
+
+* feat: Introduce `AttributeEmptyParenthesesFixer` (#7284)
+* fix(method_argument_space): inject new line after trailing space on current line (#7327)
+* fix(`YodaStyleFixer`): do not touch `require(_once)`, `include(_once)` and `yield from` statements (#7325)
+* fix: illegal offset type on file-wide return in `ReturnToYieldFromFixer` (#7318)
+
+Changelog for v3.29.0
+---------------------
+
+* chore: fix TODO tasks about T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG support (#7316)
+* feat(`@PhpCsFixer:risky`): use newest `@PER-CS:risky` instead of locked `@PER-CS2.0:risky` (#7323)
+* feat: Introduce `@PER-CS` ruleset (#7321)
+* fix: priority issue between array_syntax and space after rules (#7324)
+
+Changelog for v3.28.0
+---------------------
+
+* chore(prlint): allow for 'deps' type (#7304)
+* CI(prlint): allow for special chars in parentheses (#7308)
+* deps(dev-tools): update dev-tools (#7309)
+* DX: Bump XDebug version in Docker services (#7300)
+* feat(`@PER-CS2.0`): Add `concat_space` to the ruleset (#7302)
+
+Changelog for v3.27.0
+---------------------
+
+* docs: cleanup old mention of `--show-progress=estimating` in docs (#7287)
+* DX: add Composer script for applying CS fixes in parallel (#7274)
+* feat: Clone PER-CS1.0 to PER-CS2.0 to prepare for adding new rules (#7249)
+* feat: Introduce `LongToShorthandOperatorFixer` (#7295)
+* feat: Mark PER-CS v1 as deprecated (#7283)
+* feat: Move `single_line_empty_body` to `@PER-CS2.0` (#7282)
+* fix: Priorities for fixers related to curly braces, empty lines and trailing whitespace (#7296)
+* fix: `OrderedTraitsFixer` - better support for multiple traits in one `use` statement (#7289)
+
+Changelog for v3.26.1
+---------------------
+
+* fix: Handle superfluous asterisk in `no_superfluous_phpdoc_tags` (#7279)
+
+Changelog for v3.26.0
+---------------------
+
+* chore(checkbashisms): update to 2.23.6 (#7276)
+* chore(phpstan): reduce baseline (#7275)
+* feat: Add `single_line_empty_body` to `@PhpCsFixer` (#7266)
+* fix(YieldFromArrayToYieldsFixer): mark as Risky (#7272)
+* fix(YieldFromArrayToYieldsFixer): skip touching empty array (#7273)
+* test: Introduce common way of creating fake Composer project in `InstallViaComposerTest` (#7265)
+
 Changelog for v3.25.1
 ---------------------
 
