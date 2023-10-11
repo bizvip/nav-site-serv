@@ -36,7 +36,7 @@ final class HomeController extends AbstractController
             } elseif (isset($host['host'])) {
                 $domain = !empty($host['host']) ? str_ireplace(search: 'www.', replace: '', subject: $host['host']) : null;
             } else {
-                $domain = 'cl0001.wzjmmr.top';
+                $domain = 'hj-sem.iwwomt.com';
             }
 
             $contents = $this->indexService->getHtmlFromCache($domain);
