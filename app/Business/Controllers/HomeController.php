@@ -29,6 +29,8 @@ final class HomeController extends AbstractController
             //     return $this->response->withBody(new SwooleStream('this site is building ... '));
             // }
 
+            print_r($headers);
+
             $host = parse_url($headers['host'][0]);
 
             if (isset($host['path'])) {
@@ -40,6 +42,8 @@ final class HomeController extends AbstractController
             }
 
             $contents = $this->indexService->getHtmlFromCache($domain);
+
+            var_dump($contents);
         } catch (\Throwable $e) {
             Logger::error($e);
             $contents = $this->indexService->getUnRegisteredDomainContent();
