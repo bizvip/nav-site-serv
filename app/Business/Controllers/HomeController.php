@@ -54,7 +54,7 @@ final class HomeController extends AbstractController
     #[PostMapping(path: 'boom')]
     public function counter(): ResponseInterface
     {
-        $this->indexService->saveClick();
+        // $this->indexService->saveClick();
         return $this->response->withStatus(200);
     }
 }
