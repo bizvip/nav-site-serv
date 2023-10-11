@@ -145,6 +145,6 @@ final class IndexService
     #[Cacheable(prefix: 'unknown', ttl: self::HTML_TTL)]
     public function getUnRegisteredDomainContent(): string
     {
-        return $this->publishService->getUnRegisteredDomainContent();
+        return '<html lang="zh-cn"><meta charset="UTF-8"><body><h1>This Website Is In Building ...</h1></body></html>';
     }
 }
