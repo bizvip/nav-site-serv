@@ -42,8 +42,6 @@ final class HomeController extends AbstractController
             }
 
             $contents = $this->indexService->getHtmlFromCache($domain);
-
-            var_dump($contents);
         } catch (\Throwable $e) {
             Logger::error($e);
             $contents = $this->indexService->getUnRegisteredDomainContent();
